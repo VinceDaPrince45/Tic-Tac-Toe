@@ -1,44 +1,28 @@
-
-// create array for the grid
-const gameBoard = (() => {
-    board = [
-     '.' , '.', '.',
-     '.' , '.', '.',
-     '.' , '.', '.'
+const playGame = (() => {
+    let gameboard = [
+        '' , '' , '' ,
+        '' , '' , '' ,
+        '' , '' , '' 
     ];
-    const spots = document.querySelectorAll('.spot');
-    let counter = 0;
-    for (const spot of spots) {
-        spot.classList.add('grid');
-        spot.classList.add(counter);
-        spot.addEventListener('click', function () {
-            // create function to choose spot
-        })
-    }
-    return {board}
-})();
-
-// create two players
-// within player module, create functions that alternates turns and allows each player
-//  to choose a place to put down "X" or "O"
-const Player = (name,marker) => {
-
-}
-
-// takes turns
-const gameClock = (() => {
-    let counter = 0;
-    game = true;
+    // function to choose name and marker
+    // function to choose bot or player 2
+    // choose difficulty
+    // pressing on a spot on the grid changes it to marker and removes onclick function
+    // alternate turns
+    let gridCounter = 0;
+    let turns = 0;
+    let game = true;
+    // placholder to get game to work
+    let playerOneMarker = 'X';
+    let playerTwoMarker = '0'
     while (game) {
-        if (counter%2 == 0) {
-        // if counter is even let one player play
-        } else if (counter%2 !== 0) {
-        // if counter odd let other player play            
+        if (counter % 2 === 0) {
+            // player 1 turn
+        } else if (counter % 2 !== 0) {
+            // player 2 turn
         }
+        // function to update board
+        // function to evaluate who wins
     }
-});
 
-// display board function
-const displayBoard = (() => {
-    
 })
