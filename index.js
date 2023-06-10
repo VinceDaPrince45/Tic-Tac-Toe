@@ -21,8 +21,11 @@ const playGame = ((playerOne,playerTwo) => {
         '', '', '',
         '', '', ''     
     ];
+
     let playerOneSpots = '';
     let playerTwoSpots = '';
+    let result = '';
+
     const spots = document.querySelectorAll('.spot');
 
     const initializeBoard = () => {
@@ -39,12 +42,11 @@ const playGame = ((playerOne,playerTwo) => {
         const winningConditions = ['012', '345', '678', '036', '147', '258', '048', '246'];
         // let counter = 0;
         if (playerOneSpots.length >= 3 || playerTwoSpots.length >= 3) {
-            console.log('ready');
             for (const condition of winningConditions) {
                 if (playerOneSpots.includes(condition[0]) && (playerOneSpots.includes(condition[1])) && (playerOneSpots.includes(condition[2]))) {
-                    console.log('Player one wins');
+                    return result = 'Player one wins';
                 } else if (playerTwoSpots.includes(condition[0]) && (playerTwoSpots.includes(condition[1])) && (playerTwoSpots.includes(condition[2]))) {
-                    console.log('Player two wins');
+                    return result = 'Player two wins';
                 }
             }
             // if (counter == 8) {
@@ -63,10 +65,12 @@ const playGame = ((playerOne,playerTwo) => {
                         gameBoard[e.target.getAttribute('data-name')] = currentMarker;
                         playerOneSpots += e.target.getAttribute('data-name').toString();
                         updateBoard();
-                        evaluateRows(gameBoard);
-                        currentMarker = playerTwo.marker
-                        console.log(playerOneSpots);
-                    } else {return 'ALREADY TAKEN'}
+                        evaluateRows();
+                        currentMarker = playerTwo.marker;
+                        if (result !== '') {
+                            console.log('done');
+                        }
+                    }
                 }
             } else if (currentMarker == playerTwo.marker) {
                 if (e.target && e.target.classList.contains('spot')) {
@@ -74,10 +78,12 @@ const playGame = ((playerOne,playerTwo) => {
                         gameBoard[e.target.getAttribute('data-name')] = currentMarker;
                         playerTwoSpots += e.target.getAttribute('data-name').toString();
                         updateBoard();
-                        evaluateRows(gameBoard);
+                        evaluateRows();
                         currentMarker = playerOne.marker;
-                        console.log(playerTwoSpots);
-                    } else {return 'ALREADY TAKEN'}
+                        if (result !== '') {
+                            console.log('done');
+                        }
+                    }
                 }
             }
         })
