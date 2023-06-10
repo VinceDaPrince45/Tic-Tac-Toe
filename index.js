@@ -15,7 +15,7 @@ const Player = (playerName,playerMarker) => {
 const playerOne = Player('playerOne','X');
 const playerTwo = Player('playerTwo','O');
 
-const playGame = ((playerOne,playerTwo) => {
+const playGame = (() => {
     let gameBoard = [
         '', '', '',
         '', '', '',
@@ -27,6 +27,7 @@ const playGame = ((playerOne,playerTwo) => {
     let result = '';
 
     const spots = document.querySelectorAll('.spot');
+    const container = document.querySelector('.container');
 
     const initializeBoard = () => {
         let counter = 0;
@@ -57,34 +58,19 @@ const playGame = ((playerOne,playerTwo) => {
 
     const chooseSpot = (playerOne,playerTwo) => {
         let currentMarker = playerOne.marker;
-        const container = document.querySelector('.container')
         container.addEventListener('click', function(e) {
-            if (currentMarker == playerOne.marker) {
-                if (e.target && e.target.classList.contains('spot')) {
-                    if (gameBoard[e.target.getAttribute('data-name')] == '') {
-                        gameBoard[e.target.getAttribute('data-name')] = currentMarker;
-                        playerOneSpots += e.target.getAttribute('data-name').toString();
-                        updateBoard();
-                        evaluateRows();
-                        currentMarker = playerTwo.marker;
-                        if (result !== '') {
-                            console.log('done');
-                        }
-                    }
+            if (e.target && e.target.classList.contains('spot') && (gameBoard[e.target.getAttribute('data-name')] == '')) {
+                gameBoard[e.target.getAttribute('data-name')] = currentMarker;
+                if (currentMarker == playerOne.marker) {
+                    playerOneSpots += e.target.getAttribute('data-name').toString();
+                    currentMarker = playerTwo.marker;
+                } else if (currentMarker == playerTwo.marker) {
+                    playerTwoSpots += e.target.getAttribute('data-name').toString();
+                    currentMarker = playerOne.marker;
                 }
-            } else if (currentMarker == playerTwo.marker) {
-                if (e.target && e.target.classList.contains('spot')) {
-                    if (gameBoard[e.target.getAttribute('data-name')] == '') {
-                        gameBoard[e.target.getAttribute('data-name')] = currentMarker;
-                        playerTwoSpots += e.target.getAttribute('data-name').toString();
-                        updateBoard();
-                        evaluateRows();
-                        currentMarker = playerOne.marker;
-                        if (result !== '') {
-                            console.log('done');
-                        }
-                    }
-                }
+                updateBoard();
+                evaluateRows();
+                if (result !== '') {console.log(result)}
             }
         })
     };
@@ -103,3 +89,40 @@ const playGame = ((playerOne,playerTwo) => {
 
 playGame.initializeBoard();
 playGame.chooseSpot(playerOne,playerTwo);
+
+
+
+// let gameBoard = [
+//     '', '', '',
+//     '', '', '',
+//     '', '', ''     
+// ];
+
+// let currentMarker = playerOne.marker;
+
+// const spots = document.querySelectorAll('.spot');
+
+// let counter = 0;
+// spots.forEach((spot) => {
+//     spot.setAttribute('data-name',counter);
+//     spot.textContent = gameBoard[counter];
+//     counter += 1;
+// });
+
+// function foo(e) {
+//     console.log(e.target);
+//     if (e.target && e.target.classList.contains('spot') && (gameBoard[e.target.getAttribute('data-name')] == '')) {
+//         console.log('this is a grid');
+//         gameBoard[e.target.getAttribute('data-name')] = currentMarker;
+//         if (currentMarker == playerOne.marker) {
+//             currentMarker = playerTwo.marker;
+//         } else if (currentMarker == playerTwo.marker) {
+//             currentMarker = playerOne.marker;
+//         }
+//     }
+// }
+
+// const container = document.querySelector('.container');
+// container.addEventListener('click', foo);
+
+// put name factory into module
