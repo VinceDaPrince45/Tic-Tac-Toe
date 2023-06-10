@@ -21,7 +21,8 @@ const playGame = ((playerOne,playerTwo) => {
         '', '', '',
         '', '', ''     
     ];
-    let game = true;
+    let playerOneSpots = '';
+    let playerTwoSpots = '';
     const spots = document.querySelectorAll('.spot');
 
     const initializeBoard = () => {
@@ -34,42 +35,49 @@ const playGame = ((playerOne,playerTwo) => {
     };
 
     
-    const evaluateRows = (array) => {
-        if ((array[0] ==  array[1] == (array[2] !== '')) || (array[3] == array[4] == (array[5] !== '')) || (array[6] ==  array[7] == (array[8] !== '')) || (array[0] ==  array[3] == (array[6] !== '')) || (array[1] ==  array[4] == (array[7] !== '')) || (array[2] ==  array[5] == (array[8] !== '')) || (array[0] ==  array[4] == (array[8] !== '')) || (array[2] ==  array[4] == (array[6] !== ''))) {
-            game = false;
-            console.log(gameBoard);
-            console.log('WINNER');
-        } else if (array.includes('')) {
-            console.log('IN GAME');
-        } else {
-            game = false;
-            console.log('TIE');
+    const evaluateRows = () => {
+        const winningConditions = ['012', '345', '678', '036', '147', '258', '048', '246'];
+        // let counter = 0;
+        if (playerOneSpots.length >= 3 || playerTwoSpots.length >= 3) {
+            console.log('ready');
+            for (const condition of winningConditions) {
+                if (playerOneSpots.includes(condition[0]) && (playerOneSpots.includes(condition[1])) && (playerOneSpots.includes(condition[2]))) {
+                    console.log('Player one wins');
+                } else if (playerTwoSpots.includes(condition[0]) && (playerTwoSpots.includes(condition[1])) && (playerTwoSpots.includes(condition[2]))) {
+                    console.log('Player two wins');
+                }
+            }
+            // if (counter == 8) {
+            //     console.log('tie')
+            // };
         }
     };
 
     const chooseSpot = (playerOne,playerTwo) => {
-        let counter = 0;
-        let currentMarker;
+        let currentMarker = playerOne.marker;
         const container = document.querySelector('.container')
         container.addEventListener('click', function(e) {
-            while (game) {
-                if (counter % 2 == 0) {
-                    currentMarker = playerOne.marker;
-                    if (e.target && e.target.classList.contains('spot')) {
+            if (currentMarker == playerOne.marker) {
+                if (e.target && e.target.classList.contains('spot')) {
+                    if (gameBoard[e.target.getAttribute('data-name')] == '') {
                         gameBoard[e.target.getAttribute('data-name')] = currentMarker;
+                        playerOneSpots += e.target.getAttribute('data-name').toString();
                         updateBoard();
                         evaluateRows(gameBoard);
-                        
-                    }
-                    counter += 1;
-                } else if (counter % 2 !== 0) {
-                    currentMarker = playerTwo.marker;
-                    if (e.target && e.target.classList.contains('spot')) {
+                        currentMarker = playerTwo.marker
+                        console.log(playerOneSpots);
+                    } else {return 'ALREADY TAKEN'}
+                }
+            } else if (currentMarker == playerTwo.marker) {
+                if (e.target && e.target.classList.contains('spot')) {
+                    if (gameBoard[e.target.getAttribute('data-name')] == '') {
                         gameBoard[e.target.getAttribute('data-name')] = currentMarker;
+                        playerTwoSpots += e.target.getAttribute('data-name').toString();
                         updateBoard();
                         evaluateRows(gameBoard);
-                    }
-                    counter += 1;
+                        currentMarker = playerOne.marker;
+                        console.log(playerTwoSpots);
+                    } else {return 'ALREADY TAKEN'}
                 }
             }
         })
@@ -84,34 +92,8 @@ const playGame = ((playerOne,playerTwo) => {
         });
     };
 
-    const gameClock = (playerOne,playerTwo) => {
-    };
-
     return {initializeBoard,chooseSpot}
 })();
 
-// playGame.initializeBoard();
-// playGame.chooseSpot(playerOne,playerTwo);
-
-
-let gameBoard = [
-    'X', 'X', 'X',
-    '', '', '',
-    '', '', ''     
-]
-console.log('' !== gameBoard[0] !== gameBoard[1] !== gameBoard[2]);
-
-// validate winner
-let playerOneSpots = '';
-let playerTwoSpots = '';
-
-// concatenate number to string when selected
-const winningConditions = ['012', '345', '678', '036', '147', '258', '048', '246'];
-
-for (const condition of winningConditions) {
-    if (playerOneSpots.includes(condition[0]) && (playerOneSpots.includes(condition[1])) && (playerOneSpots.includes(condition[2]))) {
-        console.log('Player one wins');
-    } else if (playerTwoSpots.includes(condition[0]) && (playerTwoSpots.includes(condition[1])) && (playerTwoSpots.includes(condition[2]))) {
-        console.log('Player two wins');
-    } else console.log("Tie");
-}
+playGame.initializeBoard();
+playGame.chooseSpot(playerOne,playerTwo);
