@@ -50,11 +50,10 @@ const playGame = (() => {
                     return result = 'Player one wins';
                 } else if (playerTwoSpots.includes(condition[0]) && (playerTwoSpots.includes(condition[1])) && (playerTwoSpots.includes(condition[2]))) {
                     return result = 'Player two wins';
+                } else if (playerOneSpots.length == 5 || playerTwoSpots.length == 5) {
+                    return result = 'TIE';
                 }
             }
-            // if (counter == 8) {
-            //     console.log('tie')
-            // };
         }
     };
 
@@ -96,39 +95,5 @@ const playGame = (() => {
 playGame.initializeBoard();
 playGame.chooseSpot();
 
-
-
-// let gameBoard = [
-//     '', '', '',
-//     '', '', '',
-//     '', '', ''     
-// ];
-
-// let currentMarker = playerOne.marker;
-
-// const spots = document.querySelectorAll('.spot');
-
-// let counter = 0;
-// spots.forEach((spot) => {
-//     spot.setAttribute('data-name',counter);
-//     spot.textContent = gameBoard[counter];
-//     counter += 1;
-// });
-
-// function foo(e) {
-//     console.log(e.target);
-//     if (e.target && e.target.classList.contains('spot') && (gameBoard[e.target.getAttribute('data-name')] == '')) {
-//         console.log('this is a grid');
-//         gameBoard[e.target.getAttribute('data-name')] = currentMarker;
-//         if (currentMarker == playerOne.marker) {
-//             currentMarker = playerTwo.marker;
-//         } else if (currentMarker == playerTwo.marker) {
-//             currentMarker = playerOne.marker;
-//         }
-//     }
-// }
-
-// const container = document.querySelector('.container');
-// container.addEventListener('click', foo);
 
 // put name factory into module
