@@ -8,14 +8,14 @@
     // pressing on a spot on the grid changes it to marker and removes onclick function
     // alternate turns
 
-const Player = (playerName,playerMarker) => {
-    return {name:playerName, marker:playerMarker};
-}
-
-const playerOne = Player('playerOne','X');
-const playerTwo = Player('playerTwo','O');
-
 const playGame = (() => {
+    const Player = (playerName,playerMarker) => {
+        return {name:playerName, marker:playerMarker};
+    }
+    
+    const playerOne = Player('playerOne','X');
+    const playerTwo = Player('playerTwo','O');
+
     let gameBoard = [
         '', '', '',
         '', '', '',
@@ -24,10 +24,12 @@ const playGame = (() => {
 
     let playerOneSpots = '';
     let playerTwoSpots = '';
+    let currentMarker = playerOne.marker;
     let result = '';
 
     const spots = document.querySelectorAll('.spot');
     const container = document.querySelector('.container');
+    
 
     const initializeBoard = () => {
         let counter = 0;
@@ -56,23 +58,27 @@ const playGame = (() => {
         }
     };
 
-    const chooseSpot = (playerOne,playerTwo) => {
-        let currentMarker = playerOne.marker;
-        container.addEventListener('click', function(e) {
-            if (e.target && e.target.classList.contains('spot') && (gameBoard[e.target.getAttribute('data-name')] == '')) {
-                gameBoard[e.target.getAttribute('data-name')] = currentMarker;
-                if (currentMarker == playerOne.marker) {
-                    playerOneSpots += e.target.getAttribute('data-name').toString();
-                    currentMarker = playerTwo.marker;
-                } else if (currentMarker == playerTwo.marker) {
-                    playerTwoSpots += e.target.getAttribute('data-name').toString();
-                    currentMarker = playerOne.marker;
-                }
-                updateBoard();
-                evaluateRows();
-                if (result !== '') {console.log(result)}
+    const foo = (e) => {
+        if (e.target && e.target.classList.contains('spot') && (gameBoard[e.target.getAttribute('data-name')] == '')) {
+            gameBoard[e.target.getAttribute('data-name')] = currentMarker;
+            if (currentMarker == playerOne.marker) {
+                playerOneSpots += e.target.getAttribute('data-name').toString();
+                currentMarker = playerTwo.marker;
+            } else if (currentMarker == playerTwo.marker) {
+                playerTwoSpots += e.target.getAttribute('data-name').toString();
+                currentMarker = playerOne.marker;
             }
-        })
+            updateBoard();
+            evaluateRows();
+            if (result !== '') {
+                console.log(result);
+                container.removeEventListener('click',foo);
+            }
+        }
+    }
+
+    const chooseSpot = () => {
+        container.addEventListener('click', foo);
     };
 
     const updateBoard = () => {
@@ -88,7 +94,7 @@ const playGame = (() => {
 })();
 
 playGame.initializeBoard();
-playGame.chooseSpot(playerOne,playerTwo);
+playGame.chooseSpot();
 
 
 
