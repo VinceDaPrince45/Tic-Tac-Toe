@@ -20,7 +20,7 @@ const playGame = ((playerOne,playerTwo) => {
         '', '', '',
         '', '', '',
         '', '', ''     
-    ]
+    ];
     let game = true;
     const spots = document.querySelectorAll('.spot');
 
@@ -95,8 +95,23 @@ const playGame = ((playerOne,playerTwo) => {
 
 
 let gameBoard = [
-    '', 'X', '',
+    'X', 'X', 'X',
     '', '', '',
     '', '', ''     
 ]
-console.log(gameBoard[0] == gameBoard == [1] == gameBoard[2] !== ' ');
+console.log('' !== gameBoard[0] !== gameBoard[1] !== gameBoard[2]);
+
+// validate winner
+let playerOneSpots = '';
+let playerTwoSpots = '';
+
+// concatenate number to string when selected
+const winningConditions = ['012', '345', '678', '036', '147', '258', '048', '246'];
+
+for (const condition of winningConditions) {
+    if (playerOneSpots.includes(condition[0]) && (playerOneSpots.includes(condition[1])) && (playerOneSpots.includes(condition[2]))) {
+        console.log('Player one wins');
+    } else if (playerTwoSpots.includes(condition[0]) && (playerTwoSpots.includes(condition[1])) && (playerTwoSpots.includes(condition[2]))) {
+        console.log('Player two wins');
+    } else console.log("Tie");
+}
